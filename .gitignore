@@ -30,6 +30,9 @@ yarn-error.*
 .DS_Store
 *.pem
 
+# Windows
+desktop.ini
+
 # local env files
 .env*.local
 
@@ -41,3 +44,7 @@ example
 # generated native folders
 /ios
 /android
+
+# claude
+.claude/claude_mcp_config.json
+

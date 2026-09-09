@@ -7,24 +7,78 @@ import '@/global.css';
 
 import { Platform } from 'react-native';
 
+const light = {
+  // Base (Figma: "Supporting neutral" / "Base")
+  background: '#FAF6F0',
+  backgroundElement: '#E8DDD0',
+  backgroundSelected: '#E8E0D0',
+
+  // Text (Figma: "Text" / "Labels/Primary")
+  text: '#2C1F14',
+  textSecondary: '#6B5A4E',
+  labelsPrimary: '#000000',
+
+  // Brand (Figma: "Primary accent" / "Secondary accent")
+  primary: '#2D4F52',
+  accent: '#C4913A',
+
+  // Categories (Figma: "Restaurant" / "Cafe" / "Museum" / "Park")
+  restaurant: '#B5562E',
+  cafe: '#8C6D3F',
+  museum: '#5C7A8A',
+  park: '#6B8754',
+
+  // Misc (Figma: "Star Rating Color" / "Miscellaneous/Segmented Control - Selected Fill")
+  starRating: '#E2C966',
+  segmentedControlSelectedFill: '#FFFFFF',
+} as const;
+
+// The Figma file defines no dark-mode palette yet, so dark mirrors light for now.
 export const Colors = {
-  light: {
-    text: '#000000',
-    background: '#ffffff',
-    backgroundElement: '#F0F0F3',
-    backgroundSelected: '#E0E1E6',
-    textSecondary: '#60646C',
-  },
-  dark: {
-    text: '#ffffff',
-    background: '#000000',
-    backgroundElement: '#212225',
-    backgroundSelected: '#2E3135',
-    textSecondary: '#B0B4BA',
-  },
+  light,
+  dark: light,
 } as const;
 
 export type ThemeColor = keyof typeof Colors.light & keyof typeof Colors.dark;
+
+// Text styles defined in the Figma "Design System" page.
+export const Typography = {
+  headings: {
+    fontFamily: 'DM Serif Display',
+    fontWeight: '400',
+    fontSize: 24,
+    lineHeight: 24,
+    letterSpacing: 0,
+  },
+  body: {
+    fontFamily: 'DM Sans',
+    fontWeight: '400',
+    fontSize: 16,
+    lineHeight: 16,
+    letterSpacing: 0,
+  },
+  labels: {
+    fontFamily: 'Plus Jakarta Sans',
+    fontWeight: '400',
+    fontSize: 12,
+    lineHeight: 12,
+    letterSpacing: 0,
+  },
+  miniLabel: {
+    fontFamily: 'Plus Jakarta Sans',
+    fontWeight: '400',
+    fontSize: 8,
+    lineHeight: 8,
+    letterSpacing: 0,
+  },
+  handwriting: {
+    fontFamily: 'Gloria Hallelujah',
+    fontWeight: '400',
+    fontSize: 12,
+    lineHeight: 29,
+    letterSpacing: 0,
+  },
+} as const;
 
 export const Fonts = Platform.select({
   ios: {
