@@ -48,25 +48,31 @@ export function CategoryTag({ category, selected = false }: CategoryTagProps) {
   );
 }
 
+// Figma's "miniLabel" token is 8px — accurate to the design-system spec sheet, but
+// too small to read on a real device (the same issue already fixed once for
+// VisitToggle's label, see theme.ts/TODO.md). Tags render at a bumped-up 12px instead,
+// with the pill's other dimensions scaled up to match.
+const LABEL_SIZE = 12;
+
 const styles = StyleSheet.create({
   pill: {
     flexDirection: 'row',
     alignItems: 'center',
     alignSelf: 'flex-start',
-    gap: 4,
-    height: 18,
-    paddingHorizontal: 8,
-    borderRadius: 13,
+    gap: 5,
+    height: 24,
+    paddingHorizontal: 10,
+    borderRadius: 16,
     borderWidth: 0.5,
     backgroundColor: '#FFFFFF',
   },
   icon: {
-    width: 12,
-    height: 12,
+    width: 14,
+    height: 14,
   },
   label: {
     fontFamily: Typography.miniLabel.fontFamily,
-    fontSize: Typography.miniLabel.fontSize,
-    lineHeight: Typography.miniLabel.fontSize,
+    fontSize: LABEL_SIZE,
+    lineHeight: LABEL_SIZE,
   },
 });

@@ -8,7 +8,7 @@ import { FilterPanel } from '@/components/filter-panel';
 import { PlaceInfoCard } from '@/components/place-info-card';
 import { PlaceMap } from '@/components/place-map';
 import { SearchBar } from '@/components/search-bar';
-import { Colors } from '@/constants/theme';
+import { BottomTabInset, Colors } from '@/constants/theme';
 import { usePlaces } from '@/hooks/use-places';
 import { filterPlaces } from '@/lib/filter-places';
 import { defaultFilters, isFiltering } from '@/types/filters';
@@ -55,6 +55,13 @@ export default function MapScreen() {
   }, [places, filters, search]);
 
   const selectedPlace: Place | undefined = places.find((place) => place.id === selectedPlaceId);
+
+  // The floating nav bar (AppTabs) paints on top of this screen's content, so bottom
+  // sheets need to clear its height + bottom inset instead of just the screen edge —
+  // otherwise their bottom-most content (e.g. PlaceInfoCard's Delete button) renders
+  // underneath the nav pill. BottomTabInset is the same constant list.tsx/profile.tsx
+  // already use to keep scrollable content clear of the nav bar.
+  const sheetBottom = insets.bottom + BottomTabInset + 16;
 
   return (
     <View style={styles.container}>
@@ -107,7 +114,7 @@ export default function MapScreen() {
 
       {selectedPlace && (
         <ScrollView
-          style={[styles.sheet, { maxHeight: '70%' }]}
+          style={[styles.sheet, { bottom: sheetBottom, maxHeight: '70%' }]}
           contentContainerStyle={{ paddingBottom: insets.bottom + 16 }}>
           <PlaceInfoCard
             place={selectedPlace}
@@ -127,7 +134,7 @@ export default function MapScreen() {
       )}
 
       {showFilterPanel && (
-        <View style={styles.sheet}>
+        <View style={[styles.sheet, { bottom: sheetBottom }]}>
           <FilterPanel
             filters={filters}
             onChange={setFilters}

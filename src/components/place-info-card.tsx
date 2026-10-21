@@ -32,17 +32,31 @@ export function PlaceInfoCard({
 }: PlaceInfoCardProps) {
   const theme = useTheme();
 
+  // Figma's spec always has a photo, with the close button floating over it (see the
+  // design-system "Tap icon info card"). Photos aren't wired up yet (no image-picker —
+  // see TODO.md), so without one the button needs its own slot in the header row
+  // instead of absolute-positioning over nothing, where it collided with CategoryTag.
+  const closeButton = (
+    <Pressable
+      onPress={onClose}
+      hitSlop={8}
+      style={place.photoUri ? styles.closeButtonOverPhoto : undefined}>
+      <Image
+        source={require('@/assets/images/close.svg')}
+        style={place.photoUri ? styles.closeIconOverPhoto : styles.closeIcon}
+        tintColor={place.photoUri ? '#FFFFFF' : theme.text}
+      />
+    </Pressable>
+  );
+
   return (
     <View style={[styles.card, { backgroundColor: theme.segmentedControlSelectedFill }]}>
-      {place.photoUri && <Image source={{ uri: place.photoUri }} style={styles.photo} />}
-
-      <Pressable onPress={onClose} hitSlop={8} style={styles.closeButton}>
-        <Image
-          source={require('@/assets/images/close.svg')}
-          style={styles.closeIcon}
-          tintColor={theme.text}
-        />
-      </Pressable>
+      {place.photoUri && (
+        <>
+          <Image source={{ uri: place.photoUri }} style={styles.photo} />
+          {closeButton}
+        </>
+      )}
 
       <View style={styles.content}>
         <View style={styles.headerRow}>
@@ -50,7 +64,10 @@ export function PlaceInfoCard({
             <ThemedText style={styles.name}>{place.name}</ThemedText>
             {place.address && <ThemedText style={styles.address}>{place.address}</ThemedText>}
           </View>
-          <CategoryTag category={place.category} selected />
+          <View style={styles.headerRight}>
+            <CategoryTag category={place.category} selected />
+            {!place.photoUri && closeButton}
+          </View>
         </View>
 
         <StarRating rating={place.rating ?? 0} onChange={onChangeRating} />
@@ -79,14 +96,18 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 160,
   },
-  closeButton: {
+  closeButtonOverPhoto: {
     position: 'absolute',
     top: 12,
     right: 12,
   },
-  closeIcon: {
+  closeIconOverPhoto: {
     width: 24,
     height: 24,
+  },
+  closeIcon: {
+    width: 16,
+    height: 16,
   },
   content: {
     padding: 16,
@@ -101,6 +122,11 @@ const styles = StyleSheet.create({
   titleBlock: {
     flex: 1,
     gap: 2,
+  },
+  headerRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
   },
   name: {
     fontFamily: Typography.headings.fontFamily,

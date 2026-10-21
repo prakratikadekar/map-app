@@ -142,8 +142,8 @@ const styles = StyleSheet.create({
     fontSize: Typography.headings.fontSize,
   },
   closeIcon: {
-    width: 22,
-    height: 22,
+    width: 16,
+    height: 16,
   },
   hint: {
     fontFamily: Typography.body.fontFamily,

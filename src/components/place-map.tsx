@@ -61,7 +61,6 @@ export function PlaceMap({ places, onMarkerPress }: PlaceMapProps) {
         annotations={places.map((place) => ({
           id: place.id,
           coordinates: { latitude: place.latitude, longitude: place.longitude },
-          title: place.name,
           icon: iconFor(icons, place),
         }))}
         onAnnotationClick={handleMarkerClick}
@@ -76,7 +75,9 @@ export function PlaceMap({ places, onMarkerPress }: PlaceMapProps) {
       markers={places.map((place) => ({
         id: place.id,
         coordinates: { latitude: place.latitude, longitude: place.longitude },
-        title: place.name,
+        // Our own onMarkerClick already opens a richer custom info sheet (PlaceInfoCard),
+        // so the native title callout would just be redundant — suppress it.
+        showCallout: false,
         icon: iconFor(icons, place),
       }))}
       onMarkerClick={handleMarkerClick}

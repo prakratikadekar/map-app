@@ -35,7 +35,13 @@
         }
       ],
       "expo-maps",
-      "expo-font"
+      "expo-font",
+      [
+        "expo-status-bar",
+        {
+          "style": "dark"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

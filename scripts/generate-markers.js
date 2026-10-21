@@ -49,7 +49,13 @@ async function tintedIconBuffer(svgPath, color, size) {
 
 async function generate(name, config) {
   const iconSize = Math.round(SIZE * 0.4);
-  const iconOffset = { top: Math.round(SIZE * 0.22), left: Math.round((SIZE - iconSize) / 2) };
+  // The pin's circular head has the same diameter as the canvas width (SIZE) and sits
+  // flush at the top (see pinSvg's viewBox math), so its center is at y = SIZE / 2 —
+  // not an arbitrary fraction of SIZE. Both offsets center the icon on that point.
+  const iconOffset = {
+    top: Math.round(SIZE / 2 - iconSize / 2),
+    left: Math.round((SIZE - iconSize) / 2),
+  };
 
   // Visited: solid filled pin, white icon.
   const filledPin = await sharp(Buffer.from(pinSvg({ fill: config.color, stroke: config.color, strokeWidth: 0 })))

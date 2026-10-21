@@ -160,7 +160,7 @@ export default function AddPlaceScreen() {
               )}
               {!isSearching && !searchError && query.trim().length === 0 && (
                 <ThemedText themeColor="textSecondary" style={styles.hint}>
-                  Search for a place — like &quot;Portland Art Museum&quot; — to add it to your
+                  Search for a place to add it to your
                   map.
                 </ThemedText>
               )}
@@ -211,11 +211,18 @@ export default function AddPlaceScreen() {
             <VisitToggle visited={visited} onChange={setVisited} />
 
             <ThemedText style={styles.sectionLabel}>Reflection</ThemedText>
-            <ReflectionEntry value={reflection} onChangeText={setReflection} />
+            <View style={styles.reflectionArea}>
+              <ReflectionEntry value={reflection} onChangeText={setReflection} fill />
+            </View>
 
             {saveError && <ThemedText style={styles.errorText}>{saveError}</ThemedText>}
 
             <View style={styles.saveRow}>
+              <Pressable
+                onPress={() => router.back()}
+                style={({ pressed }) => [styles.cancelButton, pressed && styles.cancelPressed]}>
+                <ThemedText style={styles.cancelLabel}>Cancel</ThemedText>
+              </Pressable>
               <SaveToMapButton onPress={handleSave} />
               {isSaving && <ActivityIndicator color={Colors.light.primary} />}
             </View>
@@ -246,12 +253,12 @@ const styles = StyleSheet.create({
     width: 40,
   },
   title: {
-    fontFamily: Typography.headings.fontFamily,
-    fontSize: Typography.headings.fontSize,
+    fontFamily: Typography.labels.fontFamily,
+    fontSize: 17,
   },
   closeIcon: {
-    width: 22,
-    height: 22,
+    width: 16,
+    height: 16,
   },
   searchStep: {
     flex: 1,
@@ -273,12 +280,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.three,
   },
   detailsContent: {
+    flexGrow: 1,
     paddingHorizontal: Spacing.three,
     paddingBottom: Spacing.five,
     gap: Spacing.two,
   },
   titleBlock: {
     gap: 2,
+    marginTop: Spacing.three,
     marginBottom: Spacing.two,
   },
   placeName: {
@@ -299,6 +308,10 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     gap: 8,
   },
+  reflectionArea: {
+    flex: 1,
+    minHeight: 120,
+  },
   errorText: {
     fontFamily: Typography.labels.fontFamily,
     fontSize: Typography.labels.fontSize,
@@ -307,7 +320,24 @@ const styles = StyleSheet.create({
   saveRow: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
     gap: Spacing.two,
     marginTop: Spacing.two,
+  },
+  cancelButton: {
+    height: 34,
+    paddingHorizontal: 16,
+    borderRadius: 9,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: Colors.light.backgroundElement,
+  },
+  cancelPressed: {
+    opacity: 0.85,
+  },
+  cancelLabel: {
+    fontFamily: Typography.labels.fontFamily,
+    fontSize: Typography.labels.fontSize,
+    color: Colors.light.text,
   },
 });

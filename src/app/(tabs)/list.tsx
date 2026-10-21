@@ -42,6 +42,11 @@ export default function ListScreen() {
 
   const selectedPlace: Place | undefined = places.find((place) => place.id === selectedPlaceId);
 
+  // See map.tsx's identical constant for why: the floating nav bar paints on top of
+  // this screen, so bottom sheets must clear its height + bottom inset, not just the
+  // screen edge.
+  const sheetBottom = insets.bottom + BottomTabInset + 16;
+
   function openPlace(place: Place) {
     setShowFilterPanel(false);
     setSelectedPlaceId(place.id);
@@ -103,7 +108,7 @@ export default function ListScreen() {
 
       {selectedPlace && (
         <ScrollView
-          style={[styles.sheet, { maxHeight: '70%' }]}
+          style={[styles.sheet, { bottom: sheetBottom, maxHeight: '70%' }]}
           contentContainerStyle={{ paddingBottom: insets.bottom + 16 }}>
           <PlaceInfoCard
             place={selectedPlace}
@@ -123,7 +128,7 @@ export default function ListScreen() {
       )}
 
       {showFilterPanel && (
-        <View style={styles.sheet}>
+        <View style={[styles.sheet, { bottom: sheetBottom }]}>
           <FilterPanel
             filters={filters}
             onChange={setFilters}

@@ -26,13 +26,17 @@ export function ListPill({ label, selected = false, createNew = false }: ListPil
   );
 }
 
+// Same legibility bump as CategoryTag — Figma's 8px miniLabel token is spec-sheet scale,
+// not a real on-device size.
+const LABEL_SIZE = 12;
+
 const styles = StyleSheet.create({
   pill: {
     alignSelf: 'flex-start',
-    height: 18,
-    paddingHorizontal: 8,
+    height: 24,
+    paddingHorizontal: 10,
     justifyContent: 'center',
-    borderRadius: 13,
+    borderRadius: 16,
     borderWidth: 0.5,
     backgroundColor: '#FFFFFF',
   },
@@ -41,7 +45,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontFamily: Typography.miniLabel.fontFamily,
-    fontSize: Typography.miniLabel.fontSize,
-    lineHeight: Typography.miniLabel.fontSize,
+    fontSize: LABEL_SIZE,
+    lineHeight: LABEL_SIZE,
   },
 });

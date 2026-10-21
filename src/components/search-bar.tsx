@@ -35,7 +35,7 @@ export function SearchBar({
         <Pressable onPress={() => onChangeText('')} hitSlop={8}>
           <Image
             source={require('@/assets/images/close.svg')}
-            style={styles.icon}
+            style={[styles.icon, styles.clearIcon]}
             tintColor={theme.textSecondary}
           />
         </Pressable>
@@ -61,6 +61,11 @@ const styles = StyleSheet.create({
   icon: {
     width: 18,
     height: 18,
+  },
+  clearIcon: {
+    width: 12,
+    height: 12,
+    opacity: 0.5,
   },
   input: {
     flex: 1,
